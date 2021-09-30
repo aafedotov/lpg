@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-(a%l^6d38_&pje@vc_%&!y%l1b=f%v6in7tt^=79@05l3wzt9f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['aafedotov.ru', 'http://aafedotov.ru/', '64.227.122.72',]
+ALLOWED_HOSTS = ['aafedotov.ru', 'http://aafedotov.ru/', '64.227.122.72', 'port-8000-faa-aafedotov.preview.codeanywhere.com', ]
 
 
 # Application definition
@@ -51,11 +51,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'gaz.urls'
-
+TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [TEMPLATES_DIR],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -131,8 +131,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, "static/"),
+    )
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
