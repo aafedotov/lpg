@@ -5,5 +5,6 @@ def lpg_view(request):
     status = ''
     if request.method == 'POST':
         status = 'Данные успешно переданы на сервер!'
+        
     context = {'status': status}
     return render(request, template, context)
