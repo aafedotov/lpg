@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['aafedotov.ru', 'http://aafedotov.ru/', '64.227.122.72', 'port-
 
 INSTALLED_APPS = [
     'lpg.apps.LpgConfig',
+    'users.apps.UsersConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
+LOGIN_REDIRECT_URL = '/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
