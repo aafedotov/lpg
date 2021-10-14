@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 import datetime
 
+
 def lpg_view(request):
     if request.user.username != 'faa':
         return redirect('/auth/login/')
