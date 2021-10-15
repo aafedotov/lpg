@@ -1,13 +1,23 @@
 from django.db import models
-
+ 
 class Lpg(models.Model):
 
-    lpg_date = models.DateTimeField()
-    lpg_price = models.FloatField()
-    lpg_volume = models.FloatField()
+    date = models.DateTimeField()
+    price = models.FloatField()
+    volume = models.FloatField()
     benz_price = models.FloatField()
-    lpg_cost = models.FloatField()
-    lpg_mileage = models.FloatField()
-    lpg_mileage_total = models.FloatField()
-    lpg_consump = models.FloatField()
-    lpg_saving = models.FloatField()
+    cost = models.FloatField()
+    mileage = models.FloatField()
+    mileage_total = models.FloatField()
+    consump = models.FloatField()
+    saving = models.FloatField()
+
+class File(models.Model):
+    
+    file = models.FileField(upload_to='')
+
+    def filename(self):
+        return os.path.basename(self.file.name)
+
+    def __str__(self):
+        return self.filename()
