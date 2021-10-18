@@ -1,5 +1,4 @@
 import openpyxl
-from posts.models import Lpg
 
 def XLSXLpgParser(file):
     wb = openpyxl.load_workbook(file)

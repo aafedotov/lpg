@@ -24,7 +24,10 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active"><a class="nav-link" href="/lpg/">LPG</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="{% url 'lpg:lpg_view' %}">LPG</a></li>
+                        {% if is_lpg and user.is_authenticated %}
+                          <li class="nav-item"><a class="nav-link" href="{% url 'lpg:lpg_summary' %}">LPG summary</a></li>
+                        {% endif %}
                         <li class="nav-item"><a class="nav-link" href="/">About</a></li>
                         {% if not user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'users:login' %}">Login</a></li>

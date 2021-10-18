@@ -1,5 +1,6 @@
 from django.db import models
- 
+import os
+  
 class Lpg(models.Model):
 
     date = models.DateTimeField()
@@ -11,6 +12,12 @@ class Lpg(models.Model):
     mileage_total = models.FloatField()
     consump = models.FloatField()
     saving = models.FloatField()
+
+    class Meta:
+        ordering = ['-date']
+    
+    def __str__(self):
+        return str(self.date.date())
 
 class File(models.Model):
     

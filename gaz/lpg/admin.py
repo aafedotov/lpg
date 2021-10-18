@@ -15,7 +15,7 @@ class LpgAdmin(admin.ModelAdmin):
 
     change_list_template = "admin/model_change_list.html"
     def get_urls(self):
-        urls = super(GroupAdmin, self).get_urls()
+        urls = super(LpgAdmin, self).get_urls()
         custom_urls = [
                 url('^import/$', self.process_import, name='process_import'),
                 ]
@@ -26,7 +26,7 @@ class LpgAdmin(admin.ModelAdmin):
         count = 0
         upload_file = File.objects.order_by('-pk')[0].filename()
         to_import = parser.XLSXLpgParser(upload_file)
-        for i in range(98):
+        for i in range(97):
             date = to_import['date'][i]
             price = to_import['price'][i]
             volume = to_import['volume'][i]

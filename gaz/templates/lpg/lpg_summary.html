@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+  {% block title %} 
+    LPG
+  {% endblock %}
+
+  {% block set_body %}
+    <body style='background: url("http://images.vfl.ru/ii/1633079235/924f95bc/36081496.jpg") no-repeat center center fixed; background-size: cover;'>
+  {% endblock %}
+
+  {% block sect %}
+    <div class="p-3 mb-2 bg-primary text-white">
+    <h4>Дней эксплуатации ГБО: {{ total_days }}.</h4>
+    <h4>Километров пройдено: {{ total_mileage }} км.</h4>
+    <h4>Чистая экономия: {{ total_saving }} руб.</h4>
+    <h4>Всего литров: {{ total_volume }} литров.</h4>
+    <h4>Всего потрачено на пропан: {{ total_cost }} руб.</h4>
+    <h4>Средний расход газа: {{ total_consump }} литров на 100 км.</h4>
+    </div>
+    <br>
+    <table class="table table-dark table-bordered table-striped" style="color: white">
+      <thead class="thead-white" color="black">
+        <tr>
+          <th scope="col">Дата</th>
+          <th scope="col">Цена LPG</th>
+          <th scope="col">Литров</th>
+          <th scope="col">Стоимость</th>
+          <th scope="col">Расход</th>
+          <th scope="col">Экономия</th>
+        </tr>
+      </thead>
+    <tbody>
+    {% for item in lpg %}
+      <tr>
+        <th scope="row">{{ item.date.date }}</th>
+        <td>{{ item.price }}</td>
+        <td>{{ item.volume }}</td>
+        <td>{{ item.cost }}</td>
+        <td>{{ item.consump }}</td>
+        <td>{{ item.saving }}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  {% endblock %}
