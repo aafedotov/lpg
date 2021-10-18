@@ -11,13 +11,13 @@ def lpg_view(request):
     if request.method == 'POST':
         status = 'Данные успешно переданы на сервер!'
         now = datetime.datetime.now()
-        date = now.strftime("%d.%m.%Y")
         pricelpg = request.POST['pricelpg']
         litres = request.POST['litres']
         mileage = request.POST['mileage']
         price95 = request.POST['price95']
         last_lpg = Lpg.objects.all().order_by('-date').first()
         f = Lpg()
+        f.date = now
         f.price = round(float(pricelpg), 2) 
         f.volume = round(float(litres), 2)
         f.benz_price = round(float(price95), 2)
