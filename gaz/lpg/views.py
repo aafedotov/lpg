@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 import datetime
 from .models import Lpg
+from django.db.models import Avg
+import json
 
 def lpg_view(request):
     if request.user.username != 'faa':
@@ -45,6 +47,14 @@ def lpg_summary(request):
     total_cost = 0
     total_consump = 0
     count = 0
+    lpg_data = []
+    ai95_data = []
+    today_year = datetime.datetime.now().year
+    for i in range(1, 11):
+        lpg_data.append(Lpg.objects.filter(date__year=today_year).filter(date__month=i).aggregate(Avg('price'))['price__avg'])
+        ai95_data.append(Lpg.objects.filter(date__year=today_year).filter(date__month=i).aggregate(Avg('benz_price'))['benz_price__avg'])
+    lpg_data = json.dumps(lpg_data)
+    ai95_data = json.dumps(ai95_data)
     for lpg in lpgs:
         count += 1
         total_saving += lpg.saving
@@ -67,5 +77,7 @@ def lpg_summary(request):
             'total_mileage': total_mileage,
             'lpg': lpgs,
             'is_lpg':True,
+            'lpg_data': lpg_data,
+            'ai95_data': ai95_data,
             }
     return render(request, template, context)

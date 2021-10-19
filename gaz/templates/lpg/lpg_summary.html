@@ -39,5 +39,36 @@
         <td>{{ item.saving }}</td>
       </tr>
     {% endfor %}
+    <div id = "container" style = "width:100%; height:400 px;" >
+      <script> 
+        lp = {{ lpg_data|safe }}; 
+        ai = {{ ai95_data|safe }};
+        document.addEventListener('DOMContentLoaded', function () {
+        const chart = Highcharts.chart('container', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Динамика цен по 2021 году'
+            },
+            xAxis: {
+                categories: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', ]
+            },
+            yAxis: {
+                title: {
+                    text: 'Рублей'
+                }
+            },
+            series: [{
+                name: 'LPG',
+                data: lp
+            }, {
+                name: 'АИ-95',
+                data: ai
+            }]
+        });
+    });
+        </script>
+    </div>   
     </tbody>
   {% endblock %}
