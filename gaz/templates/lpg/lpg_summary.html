@@ -17,6 +17,7 @@
     <h4>Средний расход газа: {{ total_consump }} литров на 100 км.</h4>
     </div>
     <br>
+    <div class="d-block p-2">
     <table class="table table-dark table-bordered table-striped" style="color: white">
       <thead class="thead-white" color="black">
         <tr>
@@ -38,6 +39,7 @@
         <td>{{ item.consump }}</td>
         <td>{{ item.saving }}</td>
       </tr>
+      </div>
     {% endfor %}
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <div id="linechart_material" class="d-block p-2 bg-dark text-white">
