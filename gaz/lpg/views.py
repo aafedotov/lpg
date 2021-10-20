@@ -47,20 +47,26 @@ def lpg_summary(request):
     total_cost = 0
     total_consump = 0
     count = 0
-    lpg_data = []
-    ai95_data = []
-    today_year = datetime.datetime.now().year
-    for i in range(1, 11):
-        lpg_data.append(Lpg.objects.filter(date__year=today_year).filter(date__month=i).aggregate(Avg('price'))['price__avg'])
-        ai95_data.append(Lpg.objects.filter(date__year=today_year).filter(date__month=i).aggregate(Avg('benz_price'))['benz_price__avg'])
-    lpg_data = json.dumps(lpg_data)
-    ai95_data = json.dumps(ai95_data)
+    chart_data = []
+    chart_mileage = {}
     for lpg in lpgs:
+        data = []
+        date_str = f'{lpg.date.date().year}, {lpg.date.date().month}'
+        if date_str not in chart_mileage:
+            chart_mileage[date_str] = 0
+        chart_mileage[date_str] += lpg.mileage
+        data.append(date_str)
+        data.append(lpg.price)
+        data.append(lpg.benz_price)
+        chart_data.append(data)
         count += 1
         total_saving += lpg.saving
         total_volume += lpg.volume
         total_cost += lpg.cost
         total_consump += lpg.consump
+    chart_data.reverse()
+    chart_mileage = list(map(list, chart_mileage.items()))
+    chart_mileage.reverse()
     total_consump = round((total_consump / count), 2)
     total_volume = round(total_volume, 2)
     total_cost = round(total_cost, 2)
@@ -77,7 +83,7 @@ def lpg_summary(request):
             'total_mileage': total_mileage,
             'lpg': lpgs,
             'is_lpg':True,
-            'lpg_data': lpg_data,
-            'ai95_data': ai95_data,
+            'chart_data': chart_data,
+            'chart_mileage': chart_mileage,
             }
     return render(request, template, context)

@@ -39,36 +39,81 @@
         <td>{{ item.saving }}</td>
       </tr>
     {% endfor %}
-    <div id = "container" style = "width:100%; height:400 px;" >
-      <script> 
-        lp = {{ lpg_data|safe }}; 
-        ai = {{ ai95_data|safe }};
-        document.addEventListener('DOMContentLoaded', function () {
-        const chart = Highcharts.chart('container', {
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <div id="linechart_material" class="d-block p-2 bg-dark text-white">
+      <script type="text/javascript">
+        google.charts.load('current', {'packages':['line']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Date');
+        data.addColumn('number', 'LPG');
+        data.addColumn('number', 'АИ-95');
+
+        data.addRows({{ chart_data|safe }});
+
+        var options = {
+            height:450, 
+            backgroundColor: {
+                fill: '#171717',
+                fillOpacity: 100
+            },
             chart: {
-                type: 'bar'
+            title: 'Динамика цен на топливо',
+            subtitle: 'в рублях (RUB).',
             },
-            title: {
-                text: 'Динамика цен по 2021 году'
+            chartArea: {
+                backgroundColor: {
+                    fill: '#171717',
+                    fillOpacity: 100
             },
-            xAxis: {
-                categories: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', ]
             },
-            yAxis: {
-                title: {
-                    text: 'Рублей'
-                }
+        };
+
+        var chart = new google.charts.Line(document.getElementById('linechart_material'));
+
+        chart.draw(data, google.charts.Line.convertOptions(options));
+        }
+        </script> 
+        </div>  
+    <div id="linechart_material2" class="d-block p-2 bg-dark text-white">
+      <script type="text/javascript">
+        google.charts.load('current', {'packages':['line']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Месяц');
+        data.addColumn('number', 'Пробег');
+
+        data.addRows({{ chart_mileage|safe }});
+
+        var options = {
+            height:300, 
+            backgroundColor: {
+                fill: '#171717',
+                fillOpacity: 100
             },
-            series: [{
-                name: 'LPG',
-                data: lp
-            }, {
-                name: 'АИ-95',
-                data: ai
-            }]
-        });
-    });
-        </script>
-    </div>   
+            chart: {
+            title: 'Динамика пробега по месяцам',
+            subtitle: 'в километрах (км).',
+            },
+            chartArea: {
+                backgroundColor: {
+                    fill: '#171717',
+                    fillOpacity: 100
+            },
+            },
+        };
+
+        var chart = new google.charts.Line(document.getElementById('linechart_material2'));
+
+        chart.draw(data, google.charts.Line.convertOptions(options));
+        }
+        </script> 
+        </div>  
     </tbody>
   {% endblock %}
