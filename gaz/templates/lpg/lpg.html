@@ -28,11 +28,14 @@
       <br>
       <div class="form-group col-md-4 col-sm-4"> 
         <label for="price95"><font color="#FFFFFF">Цена 95-го:</font></label>
-        <input type="text" name = 'price95' class="form-control" id="price95" placeholder="Цена 95-го:">
+        <input type="text" name = 'price95' value="{{ price }}" class="form-control" id="price95" placeholder="Цена 95-го:">
       </div>
       <br>
       <button type="submit" class="btn btn-primary">Отправить</button>
     </form>
     <br>
     <font color="#FFFFFF">{{ status }}</font>
+    <font color="#FFFFFF">Текущая цена АИ-95 ЭКТО: {{ price }}</font>
+      <br>
+    <font color="#FFFFFF">Дата обновления цены: {{ date }}</font>
   {% endblock %}
