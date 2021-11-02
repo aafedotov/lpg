@@ -19,6 +19,7 @@ def get_benz_price():
 
 
 def lpg_view(request):
+    """View-функция регистрации заправки газом."""
     if request.user.username != 'faa':
         return redirect('/auth/login/')
     template = 'lpg/lpg.html'
@@ -55,6 +56,7 @@ def lpg_view(request):
 
 
 def lpg_summary(request):
+    """View-функция для просмотра статистики."""
     if request.user.username != 'faa':
         return redirect('/auth/login/')
     template = 'lpg/lpg_summary.html'
