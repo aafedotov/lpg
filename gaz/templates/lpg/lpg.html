@@ -13,22 +13,22 @@
     <form method='post'>{% csrf_token %}
       <div class="form-group col-md-4 col-sm-4"> 
         <label for="pricelpg"><font color="#FFFFFF">Цена LPG:</font></label>
-        <input type="text" name = 'pricelpg' class="form-control" id="pricelpg" placeholder="Цена LPG:">
+        <input required type="number" step="0.01" min="0.01" name='pricelpg' class="form-control" id="pricelpg">
       </div>
       <br>
       <div class="form-group col-md-4 col-sm-4"> 
         <label for="litres"><font color="#FFFFFF">Литров:</font></label>
-        <input type="text" name = 'litres' class="form-control" id="litres" placeholder="Литров:">
+        <input required type="number" step="0.01" min="0.01" name='litres' class="form-control" id="litres">
       </div>
       <br>
       <div class="form-group col-md-4 col-sm-4"> 
         <label for="mileage"><font color="#FFFFFF">Пробег:</font></label>
-        <input type="text" name = 'mileage' class="form-control" id="mileage" placeholder="Пробег:">
+        <input required type="number" step="0.01" min="0.01" name='mileage' class="form-control" id="mileage">
       </div>
       <br>
       <div class="form-group col-md-4 col-sm-4"> 
         <label for="price95"><font color="#FFFFFF">Цена 95-го:</font></label>
-        <input type="text" name = 'price95' value="{{ price }}" class="form-control" id="price95" placeholder="Цена 95-го:">
+        <input required type="number" step="0.01" min="0.01" name='price95' value="{{ price }}" class="form-control" id="price95">
       </div>
       <br>
       <button type="submit" class="btn btn-primary">Отправить</button>

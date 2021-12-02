@@ -1,8 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 import datetime
 from .models import Lpg
-from django.db.models import Avg
-import json
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -18,6 +17,12 @@ def get_benz_price():
     return price
 
 
+def lpg_success(request):
+    """Успешное добавление данных о заправке."""
+    template = 'lpg/success.html'
+    return render(request, template)
+
+
 def lpg_view(request):
     """View-функция регистрации заправки газом."""
     if request.user.username != 'faa':
@@ -30,7 +35,6 @@ def lpg_view(request):
                'date': price['date'],
                }
     if request.method == 'POST':
-        status = 'Данные успешно переданы на сервер!'
         now = datetime.datetime.now()
         pricelpg = request.POST['pricelpg']
         litres = request.POST['litres']
@@ -49,9 +53,7 @@ def lpg_view(request):
         f.saving = round((float(
             mileage) / 100 * 11.5 * last_lpg.benz_price - last_lpg.cost), 2)
         f.save()
-        context = {'status': status,
-                   'is_lpg': True,
-                   }
+        return redirect(reverse('lpg:success'))
     return render(request, template, context)
 
 
