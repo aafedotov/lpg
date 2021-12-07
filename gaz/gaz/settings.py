@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['aafedotov.ru', '127.0.0.1', 'http://aafedotov.ru/', '64.227.12
 # Application definition
 
 INSTALLED_APPS = [
+    'todo.apps.TodoConfig',
     'lpg.apps.LpgConfig',
     'users.apps.UsersConfig',
     'django.contrib.admin',

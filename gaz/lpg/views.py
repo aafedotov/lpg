@@ -18,7 +18,7 @@ def get_benz_price():
 
 
 def lpg_success(request):
-    """Успешное добавление данных о заправке."""
+    """View-функция успешное добавление данных о заправке."""
     template = 'lpg/success.html'
     return render(request, template)
 

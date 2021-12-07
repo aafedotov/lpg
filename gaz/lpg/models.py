@@ -1,6 +1,7 @@
 from django.db import models
 import os
-  
+
+
 class Lpg(models.Model):
 
     date = models.DateTimeField()
