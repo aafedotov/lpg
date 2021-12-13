@@ -12,27 +12,21 @@
     </h1>
 <form method='post'>{% csrf_token %}
 <div class="card w-75">
-  <label for="exampleFormControlSelect1">Выбрать категорию</label>
-    <select class="form-control" name="category" id="exampleFormControlSelect1">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
-    </select>
-    <label for="exampleFormControlTextarea1">Текст задачи</label>
-    <textarea name="task" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+    <label for="{{ form.category.id_for_label }}">Выбрать категорию</label>
+    {{ form.category }}
+    <label for="{{ form.text.id_for_label }}">Текст задачи</label>
+    {{ form.text }}
 </div>
 <button type="submit" class="btn btn-primary">Добавить задачу</button>
 </form>
       <br><br>
+{% for task in tasks %}
     <div class="card w-75">
       <div class="card-body">
-        <h5 class="card-title">Название карточки</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Кнопка</a>
+        <h5 class="card-title">{{ task.category }}</h5>
+        <p class="card-text">{{ task.text }}</p>
+        <a href="{% url 'todo:task_close' task.id %}" class="btn btn-primary">Закрыть</a>
       </div>
     </div>
-
-
+    {% endfor %}
   {% endblock %}

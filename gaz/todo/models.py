@@ -1,6 +1,7 @@
 from django.db import models
 
 from django.contrib.auth import get_user_model
+from django.template.defaultfilters import truncatechars
 
 User = get_user_model()
 
@@ -33,9 +34,14 @@ class Task(models.Model):
         auto_now_add=True
     )
     text = models.TextField(
+        max_length=300,
         verbose_name='Текст задачи',
         help_text='Введите текст задачи'
     )
+
+    @property
+    def short_text(self):
+        return truncatechars(self.text, 50)
 
     class Meta:
         ordering = ['-pub_date']
