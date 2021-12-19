@@ -13,12 +13,15 @@ class Lpg(models.Model):
     mileage_total = models.FloatField()
     consump = models.FloatField()
     saving = models.FloatField()
+    maintenance = models.IntegerField(blank=True, default=0)
+    lpg_maintenance = models.IntegerField(blank=True, default=0)
 
     class Meta:
         ordering = ['-date']
     
     def __str__(self):
         return str(self.date.date())
+
 
 class File(models.Model):
     

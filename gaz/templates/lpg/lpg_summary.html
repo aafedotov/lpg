@@ -10,9 +10,11 @@
   {% block sect %}
     <div class="d-block p-2 bg-dark text-white" style="height:auto; margin:auto;">
     <h4>Дней эксплуатации ГБО: {{ total_days }}.</h4>
+        <h4>До техобслуживания: {{ maintenance }} км.</h4>
+        <h4>До газового ТО: {{ lpg_maintenance }} км.</h4>
     <h4>Километров пройдено: {{ total_mileage }} км.</h4>
     <h4>Чистая экономия: {{ total_saving }} руб.</h4>
-    <h4>Всего литров: {{ total_volume }} литров.</h4>
+    <h4>Всего литров: {{ total_volume }}.</h4>
     <h4>Всего потрачено на пропан: {{ total_cost }} руб.</h4>
     <h4>Средний расход газа: {{ total_consump }} литров на 100 км.</h4>
     </div>

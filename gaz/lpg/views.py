@@ -29,10 +29,15 @@ def lpg_view(request):
         return redirect('/auth/login/')
     template = 'lpg/lpg.html'
     price = get_benz_price()
+    last_lpg = Lpg.objects.all().order_by('-date').first()
+    maintenance = last_lpg.maintenance
+    lpg_maintenance = last_lpg.lpg_maintenance
     context = {'status': '',
                'is_lpg': True,
                'price': price['price'],
                'date': price['date'],
+               'maintenance': maintenance,
+               'lpg_maintenance': lpg_maintenance,
                }
     if request.method == 'POST':
         now = datetime.datetime.now()
@@ -40,7 +45,6 @@ def lpg_view(request):
         litres = request.POST['litres']
         mileage = request.POST['mileage']
         price95 = request.POST['price95']
-        last_lpg = Lpg.objects.all().order_by('-date').first()
         f = Lpg()
         f.date = now
         f.price = round(float(pricelpg), 2)
@@ -52,6 +56,8 @@ def lpg_view(request):
         f.consump = round((last_lpg.volume / float(mileage) * 100), 2)
         f.saving = round((float(
             mileage) / 100 * 11.5 * last_lpg.benz_price - last_lpg.cost), 2)
+        f.maintenance = last_lpg.maintenance - int(mileage)
+        f.lpg_maintenance = last_lpg.lpg_maintenance - int(mileage)
         f.save()
         return redirect(reverse('lpg:success'))
     return render(request, template, context)
@@ -97,6 +103,8 @@ def lpg_summary(request):
     total_days = datetime.date.today() - last_lpg.date.date()
     total_days = total_days.days
     total_mileage = int(first_lpg.mileage_total)
+    maintenance = first_lpg.maintenance
+    lpg_maintenance = first_lpg.lpg_maintenance
     context = {
         'total_saving': total_saving,
         'total_volume': total_volume,
@@ -108,5 +116,7 @@ def lpg_summary(request):
         'is_lpg': True,
         'chart_data': chart_data,
         'chart_mileage': chart_mileage,
+        'lpg_maintenance': lpg_maintenance,
+        'maintenance': maintenance,
     }
     return render(request, template, context)
