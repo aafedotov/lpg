@@ -116,6 +116,44 @@
         chart.draw(data, google.charts.Line.convertOptions(options));
         }
         </script> 
-        </div>  
+        </div>
+
+    <div id="linechart_material3" class="d-block p-2 bg-dark text-white">
+      <script type="text/javascript">
+        google.charts.load('current', {'packages':['line']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Месяц');
+        data.addColumn('number', 'Затраты');
+
+        data.addRows({{ chart_cost|safe }});
+
+        var options = {
+            height:300,
+            backgroundColor: {
+                fill: '#171717',
+                fillOpacity: 100
+            },
+            chart: {
+            title: 'Динамика затрат на топливо',
+            subtitle: 'в рублях.',
+            },
+            chartArea: {
+                backgroundColor: {
+                    fill: '#171717',
+                    fillOpacity: 100
+            },
+            },
+        };
+
+        var chart = new google.charts.Line(document.getElementById('linechart_material3'));
+
+        chart.draw(data, google.charts.Line.convertOptions(options));
+        }
+        </script>
+        </div>
     </tbody>
   {% endblock %}

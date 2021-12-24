@@ -78,12 +78,15 @@ def lpg_summary(request):
     count = 0
     chart_data = []
     chart_mileage = {}
+    chart_cost = {}
     for lpg in lpgs:
         data = []
         date_str = f'{lpg.date.date().year}, {lpg.date.date().month}'
         if date_str not in chart_mileage:
             chart_mileage[date_str] = 0
+            chart_cost[date_str] = 0
         chart_mileage[date_str] += lpg.mileage
+        chart_cost[date_str] += lpg.cost
         data.append(date_str)
         data.append(lpg.price)
         data.append(lpg.benz_price)
@@ -96,6 +99,8 @@ def lpg_summary(request):
     chart_data.reverse()
     chart_mileage = list(map(list, chart_mileage.items()))
     chart_mileage.reverse()
+    chart_cost = list(map(list, chart_cost.items()))
+    chart_cost.reverse()
     total_consump = round((total_consump / count), 2)
     total_volume = round(total_volume, 2)
     total_cost = round(total_cost, 2)
@@ -116,6 +121,7 @@ def lpg_summary(request):
         'is_lpg': True,
         'chart_data': chart_data,
         'chart_mileage': chart_mileage,
+        'chart_cost': chart_cost,
         'lpg_maintenance': lpg_maintenance,
         'maintenance': maintenance,
     }
