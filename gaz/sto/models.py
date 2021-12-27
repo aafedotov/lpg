@@ -7,7 +7,7 @@ class Group(models.Model):
     description = models.TextField(blank=True)
 
     class Meta:
-        ordering = ['-name']
+        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -19,7 +19,7 @@ class Action(models.Model):
     description = models.TextField(blank=True)
 
     class Meta:
-        ordering = ['-name']
+        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -45,4 +45,4 @@ class STO(models.Model):
         ordering = ['-date']
 
     def __str__(self):
-        return str(self.date)
+        return str(self.mileage)

@@ -26,5 +26,5 @@ class STOForm(forms.ModelForm):
         queryset=Action.objects.all(),
         widget=forms.SelectMultiple
     )
-    description = forms.CharField(widget=forms.Textarea)
-    receipt = forms.ImageField()
+    description = forms.CharField(widget=forms.Textarea, required=False)
+    receipt = forms.ImageField(required=False)
