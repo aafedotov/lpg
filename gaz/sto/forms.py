@@ -11,14 +11,13 @@ class STOForm(forms.ModelForm):
 
     class Meta:
         model = STO
-        fields = ['date', 'mileage', 'group', 'actions', 'description', 'receipt', 'price']
+        fields = ['mileage', 'group', 'actions', 'description', 'receipt', 'price']
         labels = {
             'mileage': 'Текущий пробег:',
             'group': 'Тип ТО:',
             'price': 'Цена:',
             'actions': 'Спецификация:'
         }
-    date = forms.DateField(widget=forms.SelectDateWidget(years=[2018, 2019, 2020, 2021]))
     mileage = forms.IntegerField()
     group = forms.ModelChoiceField(queryset=Group.objects.all())
     price = forms.IntegerField()

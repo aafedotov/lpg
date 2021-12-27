@@ -12,9 +12,6 @@
       {% if form.errors %} {{ form.errors }} {% endif %}
       <form method="post" enctype="multipart/form-data">{% csrf_token %}
       <div class="form-group col-md-8 col-sm-8">
-          <label for="{{ form.date.id_for_label }}"><font color="#FFFFFF">Дата:</font>:</label>
-      {{ form.date }}
-          <br>
           <label for="{{ form.mileage.id_for_label }}"><font color="#FFFFFF">Пробег:</font>:</label>
       {{ form.mileage }}
           <br>

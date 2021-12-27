@@ -27,7 +27,7 @@ class Action(models.Model):
 
 class STO(models.Model):
     """Модель с записями о прошедших ТО."""
-    date = models.DateField()
+    date = models.DateField(auto_now_add=True)
     mileage = models.IntegerField()
     group = models.ForeignKey(
         Group,

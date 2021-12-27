@@ -8,9 +8,9 @@
   {% endblock %}
 
   {% block sect %}
-    <div class="d-block p-2 bg-dark text-white" style="height:auto; margin:auto;">
-        <h4>Всего затрат на обслуживание: {{ total }} руб.</h4>
-    <br>
+    <div class="d-block text-white" style="height:auto; margin:auto;">
+        <h4>Всего затрат: {{ total }} руб.</h4>
+    </div>
         <table class="table table-dark table-bordered table-striped" style="color: white; height:auto; margin:auto;">
       <thead class="thead-white" color="black">
                     <tr>
@@ -33,4 +33,10 @@
       </tr>
     {% endfor %}
         </tbody>
-          {% endblock %}
+        <br>
+        <br>
+        </table>
+    </div>
+      <br>
+      <br>
+  {% endblock %}
