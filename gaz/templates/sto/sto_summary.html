@@ -19,15 +19,17 @@
           <th scope="col">Тип ТО</th>
           <th scope="col">Спецификация</th>
           <th scope="col">Цена</th>
+                        <th scope="col">Описание</th>
         </tr>
             <tbody>
     {% for item in stos %}
       <tr>
         <th scope="row">{{ item.date }}</th>
         <td>{{ item.mileage }}</td>
-        <td>{{ item.group }}</td>
+        <td>{% if item.receipt %}<a href="{{ item.receipt.url }}">{{ item.group }}</a>{% else %}{{ item.group }}{% endif %}</td>
         <td>{% for action in item.actions.all %} {{ action.name }}<br> {% endfor %}</td>
         <td>{{ item.price }}</td>
+        <td>{{ item.description }}</td>
       </tr>
     {% endfor %}
         </tbody>

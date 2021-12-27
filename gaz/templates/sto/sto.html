@@ -9,7 +9,8 @@
 
   {% block sect %}
     <h1 class="mt-5"><font color="#FFFFFF"><b>STO CHECK-IN</b></font></h1>
-      <form method='post'>{% csrf_token %}
+      {% if form.errors %} {{ form.errors }} {% endif %}
+      <form method="post" enctype="multipart/form-data">{% csrf_token %}
       <div class="form-group col-md-8 col-sm-8">
           <label for="{{ form.date.id_for_label }}"><font color="#FFFFFF">Дата:</font>:</label>
       {{ form.date }}
@@ -25,9 +26,18 @@
           <br>
           <label for="{{ form.actions.id_for_label }}"><font color="#FFFFFF">Спецификация:</font>:</label>
       {{ form.actions }}
+          <br>
+          <label for="{{ form.description.id_for_label }}"><font color="#FFFFFF">Комментарии:</font>:</label>
+      {{ form.description }}
+          <br>
+          <label for="{{ form.receipt.id_for_label }}"><font color="#FFFFFF">Заказ-наряд:</font>:</label>
+      {{ form.receipt }}
 
       </div>
       <br>
       <button type="submit" class="btn btn-primary">Отправить</button>
-
+        <br>
+      <br>
+      <br>
+      <br>
   {% endblock %}

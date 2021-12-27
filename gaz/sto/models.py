@@ -6,6 +6,9 @@ class Group(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
 
+    class Meta:
+        ordering = ['-name']
+
     def __str__(self):
         return self.name
 
@@ -14,6 +17,9 @@ class Action(models.Model):
     """Перечень работ."""
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
+
+    class Meta:
+        ordering = ['-name']
 
     def __str__(self):
         return self.name
@@ -32,6 +38,8 @@ class STO(models.Model):
     )
     actions = models.ManyToManyField(Action)
     price = models.IntegerField()
+    description = models.TextField(null=True, blank=True)
+    receipt = models.ImageField(upload_to='images/', null=True, blank=True)
 
     class Meta:
         ordering = ['-date']

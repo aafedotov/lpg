@@ -11,7 +11,7 @@ class STOForm(forms.ModelForm):
 
     class Meta:
         model = STO
-        fields = ['date', 'mileage', 'group', 'actions', 'price']
+        fields = ['date', 'mileage', 'group', 'actions', 'description', 'receipt', 'price']
         labels = {
             'mileage': 'Текущий пробег:',
             'group': 'Тип ТО:',
@@ -26,3 +26,5 @@ class STOForm(forms.ModelForm):
         queryset=Action.objects.all(),
         widget=forms.SelectMultiple
     )
+    description = forms.CharField(widget=forms.Textarea)
+    receipt = forms.ImageField()

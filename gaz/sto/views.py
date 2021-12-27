@@ -15,7 +15,7 @@ def sto_view(request):
     if request.user.username != 'faa':
         return redirect('/auth/login/')
     is_sto = True
-    form = STOForm(request.POST or None)
+    form = STOForm(request.POST or None, files=request.FILES or None)
     if form.is_valid():
         form.save()
         return redirect(reverse('sto:success'))
