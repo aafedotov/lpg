@@ -7,6 +7,8 @@ from django.shortcuts import get_object_or_404
 
 def todo_list(request):
     """View-функция главной страницы с задачами."""
+    if request.user.username != 'faa':
+        return redirect('/auth/login/')
     template = 'todo/todo_list.html'
     form = TaskForm(request.POST or None)
     if form.is_valid():

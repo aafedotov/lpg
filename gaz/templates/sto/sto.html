@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+  {% block title %}
+    STO
+  {% endblock %}
+
+  {% block set_body %}
+    <body style='background: url("http://images.vfl.ru/ii/1640337120/2c1bd022/37251088.jpg") no-repeat center center fixed; background-size: cover;'>
+  {% endblock %}
+
+  {% block sect %}
+    <h1 class="mt-5"><font color="#FFFFFF"><b>STO CHECK-IN</b></font></h1>
+      <form method='post'>{% csrf_token %}
+      <div class="form-group col-md-8 col-sm-8">
+          <label for="{{ form.date.id_for_label }}"><font color="#FFFFFF">Дата:</font>:</label>
+      {{ form.date }}
+          <br>
+          <label for="{{ form.mileage.id_for_label }}"><font color="#FFFFFF">Пробег:</font>:</label>
+      {{ form.mileage }}
+          <br>
+          <label for="{{ form.group.id_for_label }}"><font color="#FFFFFF">Тип ТО:</font>:</label>
+      {{ form.group }}
+          <br>
+          <label for="{{ form.price.id_for_label }}"><font color="#FFFFFF">Цена:</font>:</label>
+      {{ form.price }}
+          <br>
+          <label for="{{ form.actions.id_for_label }}"><font color="#FFFFFF">Спецификация:</font>:</label>
+      {{ form.actions }}
+
+      </div>
+      <br>
+      <button type="submit" class="btn btn-primary">Отправить</button>
+
+  {% endblock %}
