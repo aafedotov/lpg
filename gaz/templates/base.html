@@ -35,6 +35,7 @@
                             <li class="nav-item active"><a class="nav-link" href="{% url 'sto:sto_summary' %}">STO summary</a></li>
                         {% endif %}
                         <li class="nav-item active"><a class="nav-link" href="{% url 'todo:list' %}">todo</a></li>
+                            <li class="nav-item active"><a class="nav-link" href="{% url 'meta:index' %}">Meta Memory</a></li>
                         {% endif %}
                         <li class="nav-item"><a class="nav-link" href="/">About</a></li>
                         {% if not user.is_authenticated %}

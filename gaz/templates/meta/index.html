@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}
+    Meta Memory
+{% endblock %}
+
+{% block set_body %}
+    <body style='background: url("https://i.yapx.ru/Sj2Nf.jpg") no-repeat center center fixed; background-size: cover;'></body>
+{% endblock %}
+
+{% block sect %}
+    <h1 class="mt-5"><font color="#FFFFFF"><b>Заявка на формирование блока</b></font>
+    </h1>
+    {% if form.errors %} {{ form.errors }} {% endif %}
+    <form method="post" enctype="multipart/form-data">{% csrf_token %}
+    <div class="form-group col-md-8 col-sm-8">
+        <label for="{{ form.name.id_for_label }}"><font color="#FFFFFF">Фамилия
+            Имя Отчество:</font>:</label>
+        {{ form.name }}
+        <br>
+        <label for="{{ form.dob.id_for_label }}"><font color="#FFFFFF">Дата
+            рождения:</font>:</label>
+        {{ form.dob }}
+        <br>
+        <label for="{{ form.dod.id_for_label }}"><font color="#FFFFFF">Дата
+            смерти:</font>:</label>
+        {{ form.dod }}
+        <br>
+        <label for="{{ form.bio.id_for_label }}"><font color="#FFFFFF">Краткая
+            биография:</font>:</label>
+        {{ form.bio }}
+        <br>
+        <label for="{{ form.portrait.id_for_label }}"><font color="#FFFFFF">Портрет:</font>:</label>
+        {{ form.portrait }}
+        <br>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-dark">Отправить</button>
+    <br>
+    <br>
+    <br>
+    <br>
+{% endblock %}
