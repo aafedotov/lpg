@@ -13,6 +13,7 @@ DEBUG = False
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
+    'meta.apps.MetaConfig'
     'todo.apps.TodoConfig',
     'lpg.apps.LpgConfig',
     'sto.apps.StoConfig',
