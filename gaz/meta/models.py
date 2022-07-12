@@ -10,6 +10,7 @@ class Memory(models.Model):
     bio = models.TextField(blank=True)
     portrait = models.ImageField(upload_to='portraits/', null=True, blank=True)
     hex_hash = models.TextField(default='')
+    cid = models.TextField(default='')
 
     def __str__(self):
         return self.name

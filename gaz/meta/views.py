@@ -48,7 +48,7 @@ def index(request):
         file_name = f'{obj_dict["name"]}_{now_formatted}.txt'
         with open(graves_dir / file_name, "w") as text_file:
             text_file.write(hex_hash)
-        obj.save()
+
         multipart_form_data = {
             'file': (
                 file_name,
@@ -63,7 +63,10 @@ def index(request):
                                  files=multipart_form_data, headers=headers,
                                  verify=False)
         response_dict = json.loads(response.text)
-        context = {'api_response': response_dict.get('cid')}
+        cid = response_dict.get('cid')
+        obj.cid = cid
+        obj.save()
+        context = {'api_response': cid}
         return render(request, 'meta/success.html', context=context)
 
     template = 'meta/index.html'
