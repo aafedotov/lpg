@@ -1,17 +1,18 @@
 import base64
-import json
 import datetime as dt
-import requests
-
-from django.contrib import messages
-from django.shortcuts import render, redirect, reverse
+import json
+import os
 from pathlib import Path
+
+import requests
+from django.shortcuts import render
 
 from .forms import MemoryForm
 
 BASE_DIR = Path(__file__).parent
-TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDliZTJFZGY1NTBGMDEwZDQ1MzYxMWQwNDMxN0Q3MTU1RUU2NjQ2MTQiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTc1MzU5MzU0OTcsIm5hbWUiOiJtZXRhbWVtb3J5In0.h3xx_IsIF-VqnOP0H0hVCoJ-kdN8m0MONOkxKRrSpdg'
 
+TOKEN = os.getenv('WEB3_TOKEN')
+API_URL = 'https://api.web3.storage/upload'
 
 
 def meta_success(request):
@@ -26,6 +27,7 @@ def index(request):
     if form.is_valid():
         obj = form.save(commit=False)
         encoded_portrait = base64.b64encode(obj.portrait.read())
+
         obj_dict = {
             'name': str(obj.name),
             'dob': str(obj.dob),
@@ -48,17 +50,22 @@ def index(request):
             text_file.write(hex_hash)
         obj.save()
         multipart_form_data = {
-            'file': (file_name, open(graves_dir / file_name, 'rb'), 'text/plain')
+            'file': (
+                file_name,
+                open(graves_dir / file_name, 'rb'),
+                'text/plain'
+            )
         }
 
         headers = {'Authorization': f'Bearer {TOKEN}'}
 
-        response = requests.post('https://api.web3.storage/upload',
+        response = requests.post(API_URL,
                                  files=multipart_form_data, headers=headers,
                                  verify=False)
         response_dict = json.loads(response.text)
         context = {'api_response': response_dict.get('cid')}
         return render(request, 'meta/success.html', context=context)
+
     template = 'meta/index.html'
     context = {'form': form}
     return render(request, template, context)
