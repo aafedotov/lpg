@@ -56,7 +56,8 @@ def index(request):
         response = requests.post('https://api.web3.storage/upload',
                                  files=multipart_form_data, headers=headers,
                                  verify=False)
-        context = {'api_response': response.text}
+        response_dict = json.loads(response.text)
+        context = {'api_response': response_dict.get('cid')}
         return render(request, 'meta/success.html', context=context)
     template = 'meta/index.html'
     context = {'form': form}
