@@ -1,42 +1,47 @@
 {% extends 'base.html' %}
-  {% block title %}
-    STO
-  {% endblock %}
+{% block title %}
+    STO {{ car }}
+{% endblock %}
 
-  {% block set_body %}
+{% block set_body %}
     <body style='background: url("http://images.vfl.ru/ii/1640337120/2c1bd022/37251088.jpg") no-repeat center center fixed; background-size: cover;'>
-  {% endblock %}
+{% endblock %}
 
-  {% block sect %}
+{% block sect %}
     <div class="d-block text-white" style="height:auto; margin:auto;">
+        <h4>Автомобиль: {{ car }}.</h4>
         <h4>Всего затрат: {{ total }} руб.</h4>
     </div>
-        <table class="table table-dark table-bordered table-striped" style="color: white; height:auto; margin:auto;">
-      <thead class="thead-white" color="black">
-                    <tr>
-          <th scope="col">Дата</th>
-          <th scope="col">Пробег</th>
-          <th scope="col">Тип ТО</th>
-          <th scope="col">Спецификация</th>
-          <th scope="col">Цена</th>
-                        <th scope="col">Описание</th>
+    <table class="table table-dark table-bordered table-striped"
+           style="color: white; height:auto; margin:auto;">
+        <thead class="thead-white" color="black">
+        <tr>
+            <th scope="col">Дата</th>
+            <th scope="col">Пробег</th>
+            <th scope="col">Тип ТО</th>
+            <th scope="col">Спецификация</th>
+            <th scope="col">Цена</th>
+            <th scope="col">Описание</th>
         </tr>
-            <tbody>
-    {% for item in stos %}
-      <tr>
-        <th scope="row">{{ item.date }}</th>
-        <td>{{ item.mileage }}</td>
-        <td>{% if item.receipt %}<a href="{{ item.receipt.url }}">{{ item.group }}</a>{% else %}{{ item.group }}{% endif %}</td>
-        <td>{% for action in item.actions.all %} {{ action.name }}<br> {% endfor %}</td>
-        <td>{{ item.price }}</td>
-        <td>{{ item.description }}</td>
-      </tr>
-    {% endfor %}
+        <tbody>
+        {% for item in stos %}
+            <tr>
+                <th scope="row">{{ item.date }}</th>
+                <td>{{ item.mileage }}</td>
+                <td>{% if item.receipt %}
+                    <a href="{{ item.receipt.url }}">{{ item.group }}</a>{% else %}
+                    {{ item.group }}{% endif %}</td>
+                <td>{% for action in item.actions.all %} {{ action.name }}
+                    <br> {% endfor %}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.description }}</td>
+            </tr>
+        {% endfor %}
         </tbody>
         <br>
         <br>
-        </table>
+    </table>
     </div>
-      <br>
-      <br>
-  {% endblock %}
+    <br>
+    <br>
+{% endblock %}

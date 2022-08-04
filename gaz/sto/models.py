@@ -1,4 +1,12 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
+
+User = get_user_model()
+
+
+def get_first_user():
+    return User.objects.get(username='faa')
 
 
 class Group(models.Model):
@@ -27,6 +35,15 @@ class Action(models.Model):
 
 class STO(models.Model):
     """Модель с записями о прошедших ТО."""
+
+    car = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='stos',
+        verbose_name='Автомобиль',
+        null=True,
+        default=get_first_user()
+    )
     date = models.DateField(auto_now_add=True)
     mileage = models.IntegerField()
     group = models.ForeignKey(

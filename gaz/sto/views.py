@@ -12,7 +12,7 @@ def sto_success(request):
 
 def sto_view(request):
     """View-функция для формы чек-ина ТО."""
-    if request.user.username != 'faa':
+    if request.user.username not in ('faa', 'Patriot'):
         return redirect('/auth/login/')
     is_sto = True
     form = STOForm(request.POST or None, files=request.FILES or None)
@@ -26,10 +26,11 @@ def sto_view(request):
 
 def sto_summary(request):
     """View-функция для саммари по ТО."""
-    if request.user.username != 'faa':
+    if request.user.username not in ('faa', 'Patriot'):
         return redirect('/auth/login/')
     template = 'sto/sto_summary.html'
-    stos = STO.objects.all()
+    stos = STO.objects.filter(car=request.user)
     total = stos.aggregate(Sum('price')).get('price__sum')
-    context = {'stos': stos, 'total': total}
+    car = request.user.username
+    context = {'stos': stos, 'total': total, 'car': car}
     return render(request, template, context)
