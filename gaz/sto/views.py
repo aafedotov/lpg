@@ -17,7 +17,9 @@ def sto_view(request):
     is_sto = True
     form = STOForm(request.POST or None, files=request.FILES or None)
     if form.is_valid():
-        form.save()
+        sto = form.save(commit=False)
+        sto.car = request.user
+        sto.save()
         return redirect(reverse('sto:success'))
     template = 'sto/sto.html'
     context = {'form': form, 'is_sto': is_sto}

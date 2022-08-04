@@ -5,10 +5,6 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-def get_first_user():
-    return User.objects.get(username='faa')
-
-
 class Group(models.Model):
     """Модель с типом обслуживания."""
     name = models.CharField(max_length=100)
@@ -41,8 +37,8 @@ class STO(models.Model):
         on_delete=models.CASCADE,
         related_name='stos',
         verbose_name='Автомобиль',
-        null=True,
-        default=get_first_user()
+        to_field='username',
+        default='faa',
     )
     date = models.DateField(auto_now_add=True)
     mileage = models.IntegerField()
