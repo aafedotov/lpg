@@ -37,7 +37,7 @@ def petrol_view(request):
         new_petrol.cost = round(float(price) * float(volume), 2)
         new_petrol.odometer = round(float(odometer), 2)
         if last_petrol:
-            mileage = odometer - last_petrol.odometer
+            mileage = float(odometer) - last_petrol.odometer
             new_petrol.consumption = round((last_petrol.volume / float(mileage) * 100), 2)
             new_petrol.maintenance = last_petrol.maintenance - mileage
         else:
@@ -54,7 +54,7 @@ def petrol_summary(request):
         return redirect('/auth/login/')
     template = 'petrol/petrol_summary.html'
     car = request.user.username
-    petrols = Petrol.objects.filter(car=car)
+    petrols = Petrol.objects.filter(car=request.user)
     if not petrols:
         context = {
             'car': car,
@@ -63,12 +63,14 @@ def petrol_summary(request):
     last_petrol = petrols.order_by('-date').first()
     first_petrol = petrols.order_by('-date').last()
     total_mileage = last_petrol.odometer - first_petrol.odometer
+    if total_mileage == 0:
+        total_mileage = last_petrol.odometer
     maintenance = last_petrol.maintenance
     total_odometer = last_petrol.odometer
-    total_volume = petrols.aggregate(Sum('volume'))
-    total_cost = petrols.aggregate(Sum('cost'))
+    total_volume = petrols.aggregate(Sum('volume')).get('volume__sum')
+    total_cost = petrols.aggregate(Sum('cost')).get('cost__sum')
     total_cost_per_km = round(total_cost / total_mileage, 2)
-    total_consump = petrols.aggregate(Avg('consumption'))
+    total_consump = petrols.aggregate(Avg('consumption')).get('consumption__avg')
     context = {
         'total_volume': total_volume,
         'total_cost': total_cost,
