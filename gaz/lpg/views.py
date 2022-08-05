@@ -60,6 +60,7 @@ def lpg_view(request):
             mileage) / 100 * 11.5 * last_lpg.benz_price - last_lpg.cost), 2)
         f.maintenance = last_lpg.maintenance - int(mileage)
         f.lpg_maintenance = last_lpg.lpg_maintenance - int(mileage)
+        f.car = request.user
         f.save()
         return redirect(reverse('lpg:success'))
     return render(request, template, context)

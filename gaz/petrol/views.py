@@ -31,6 +31,7 @@ def petrol_view(request):
         volume = request.POST['volume']
         odometer = request.POST['odometer']
         new_petrol = Petrol()
+        new_petrol.car = request.user
         new_petrol.price = round(float(price), 2)
         new_petrol.volume = round(float(volume), 2)
         new_petrol.cost = round(float(price) * float(volume), 2)
