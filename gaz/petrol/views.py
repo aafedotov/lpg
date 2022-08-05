@@ -16,7 +16,10 @@ def petrol_view(request):
         return redirect('/auth/login/')
     template = 'petrol/petrol.html'
     last_petrol = Petrol.objects.all().order_by('-date').first()
-    maintenance = last_petrol.maintenance
+    if last_petrol:
+        maintenance = last_petrol.maintenance
+    else:
+        maintenance = 'Нет данных'
     car = request.user.username
     context = {
         'is_petrol': True,
@@ -49,7 +52,13 @@ def petrol_summary(request):
     if request.user.username not in ('faa', 'Patriot'):
         return redirect('/auth/login/')
     template = 'petrol/petrol_summary.html'
-    petrols = Petrol.objects.filter(car=request.user)
+    car = request.user.username
+    petrols = Petrol.objects.filter(car=car)
+    if not petrols:
+        context = {
+            'car': car,
+        }
+        return render(request, template, context)
     last_petrol = petrols.order_by('-date').first()
     first_petrol = petrols.order_by('-date').last()
     total_mileage = last_petrol.odometer - first_petrol.odometer
@@ -59,7 +68,6 @@ def petrol_summary(request):
     total_cost = petrols.aggregate(Sum('cost'))
     total_cost_per_km = round(total_cost / total_mileage, 2)
     total_consump = petrols.aggregate(Avg('consumption'))
-    car = request.user.username
     context = {
         'total_volume': total_volume,
         'total_cost': total_cost,
