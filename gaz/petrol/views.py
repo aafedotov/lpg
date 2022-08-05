@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.db.models import Sum, Avg
 
-from .models import Petrol
+from .models import Petrol, Maintenance
 
 
 def petrol_success(request):
@@ -15,11 +15,12 @@ def petrol_view(request):
     if request.user.username not in ('faa', 'Patriot'):
         return redirect('/auth/login/')
     template = 'petrol/petrol.html'
-    last_petrol = Petrol.objects.all().order_by('-date').first()
+    maintenance = Maintenance.objects.filter(car=request.user).first()
+    last_petrol = Petrol.objects.filter(car=request.user).order_by('-date').first()
     if last_petrol:
-        maintenance = last_petrol.maintenance
+        maintenance = maintenance.next_mileage - last_petrol.odometer
     else:
-        maintenance = 'Нет данных'
+        maintenance = maintenance.next_mileage
     car = request.user.username
     context = {
         'is_petrol': True,
@@ -39,10 +40,8 @@ def petrol_view(request):
         if last_petrol:
             mileage = float(odometer) - last_petrol.odometer
             new_petrol.consumption = round((last_petrol.volume / float(mileage) * 100), 2)
-            new_petrol.maintenance = last_petrol.maintenance - mileage
         else:
             new_petrol.consumption = 0
-            new_petrol.maintenance = 0
         new_petrol.save()
         return redirect(reverse('petrol:success'))
     return render(request, template, context)
@@ -55,9 +54,11 @@ def petrol_summary(request):
     template = 'petrol/petrol_summary.html'
     car = request.user.username
     petrols = Petrol.objects.filter(car=request.user)
+    maintenance = Maintenance.objects.filter(car=request.user).first()
     if not petrols:
         context = {
             'car': car,
+            'maintenance': maintenance.next_mileage,
         }
         return render(request, template, context)
     last_petrol = petrols.order_by('-date').first()
@@ -65,7 +66,7 @@ def petrol_summary(request):
     total_mileage = last_petrol.odometer - first_petrol.odometer
     if total_mileage == 0:
         total_mileage = last_petrol.odometer
-    maintenance = last_petrol.maintenance
+    maintenance = maintenance.next_mileage - last_petrol.odometer
     total_odometer = last_petrol.odometer
     total_volume = petrols.aggregate(Sum('volume')).get('volume__sum')
     total_cost = petrols.aggregate(Sum('cost')).get('cost__sum')

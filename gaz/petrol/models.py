@@ -5,6 +5,18 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
+class Maintenance(models.Model):
+    """Хранение отсечек ТО."""
+    car = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='maintenances',
+        verbose_name='Автомобиль',
+        to_field='username',
+    )
+    next_mileage = models.FloatField(verbose_name='Следущее ТО (одометр)')
+
+
 class Petrol(models.Model):
     """Описание модели для регистрации бензиновых запровок."""
     car = models.ForeignKey(
@@ -19,7 +31,6 @@ class Petrol(models.Model):
     cost = models.FloatField()
     odometer = models.FloatField()
     consumption = models.FloatField()
-    maintenance = models.FloatField()
 
     class Meta:
         ordering = ['-date']
