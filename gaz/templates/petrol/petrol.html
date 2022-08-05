@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}
+    Petrol {{ car }}
+{% endblock %}
+
+{% block set_body %}
+    <body style='background: url("https://i.yapx.ru/TMqjc.jpg") no-repeat center center fixed; background-size: cover;'>
+{% endblock %}
+
+{% block sect %}
+    <h1 class="mt-5"><font color="#FFFFFF"><b>GAS STATION CHECK-IN</b></font>
+    </h1>
+    <h4 class="mt-5"><font color="#FFFFFF"><b>Автомобиль: {{ car }}</b></font>
+    </h4>
+    <br>
+    <div class="badge bg-success text-wrap" style="width: 7rem;">
+        ТО: {{ maintenance }} км
+    </div>
+{#    <div class="badge bg-primary text-wrap" style="width: 7rem;">#}
+{#        ГБО: {{ lpg_maintenance }} км#}
+{#    </div>#}
+    <form method='post'>{% csrf_token %}
+        <div class="form-group col-md-4 col-sm-4">
+            <label for="price"><font color="#FFFFFF">Цена
+                :</font></label>
+            <input required type="number" step="0.01" min="0.01"
+                   name='price' class="form-control" id="price">
+        </div>
+        <br>
+        <div class="form-group col-md-4 col-sm-4">
+            <label for="volume"><font color="#FFFFFF">Литров:</font></label>
+            <input required type="number" step="0.01" min="0.01" name='volume'
+                   class="form-control" id="volume">
+        </div>
+        <br>
+        <div class="form-group col-md-4 col-sm-4">
+            <label for="odometer"><font color="#FFFFFF">Пробег:</font></label>
+            <input required type="number" step="0.01" min="0.01" name='odometer'
+                   class="form-control" id="odometer">
+        </div>
+        <br>
+        <br>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+    <br>
+{% endblock %}

@@ -8,6 +8,7 @@ urlpatterns = [
     path('lpg/', include('lpg.urls', namespace='lpg')),
     path('sto/', include('sto.urls', namespace='sto')),
     path('todo/', include('todo.urls', namespace='todo')),
+    path('petrol/', include('petrol.urls', namespace='petrol')),
     path('meta/', include('meta.urls', namespace='meta')),
     path('auth/', include('users.urls', namespace='users')),
     path('auth/', include('django.contrib.auth.urls')),

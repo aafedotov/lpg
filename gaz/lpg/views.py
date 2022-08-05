@@ -32,12 +32,14 @@ def lpg_view(request):
     last_lpg = Lpg.objects.all().order_by('-date').first()
     maintenance = last_lpg.maintenance
     lpg_maintenance = last_lpg.lpg_maintenance
+    car = request.user.username
     context = {'status': '',
                'is_lpg': True,
                'price': price['price'],
                'date': price['date'],
                'maintenance': maintenance,
                'lpg_maintenance': lpg_maintenance,
+               'car': car,
                }
     if request.method == 'POST':
         now = datetime.datetime.now()
@@ -65,10 +67,10 @@ def lpg_view(request):
 
 def lpg_summary(request):
     """View-функция для просмотра статистики."""
-    if request.user.username != 'faa':
+    if request.user.username not in ('faa', 'Patriot'):
         return redirect('/auth/login/')
     template = 'lpg/lpg_summary.html'
-    lpgs = Lpg.objects.all()
+    lpgs = Lpg.objects.filter(car=request.user)
     last_lpg = lpgs.last()
     first_lpg = lpgs.first()
     total_saving = 0
@@ -110,6 +112,7 @@ def lpg_summary(request):
     total_mileage = int(first_lpg.mileage_total)
     maintenance = first_lpg.maintenance
     lpg_maintenance = first_lpg.lpg_maintenance
+    car = request.user.username
     context = {
         'total_saving': total_saving,
         'total_volume': total_volume,
@@ -124,5 +127,6 @@ def lpg_summary(request):
         'chart_cost': chart_cost,
         'lpg_maintenance': lpg_maintenance,
         'maintenance': maintenance,
+        'car': car,
     }
     return render(request, template, context)

@@ -1,9 +1,21 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+
 import os
+
+User = get_user_model()
 
 
 class Lpg(models.Model):
-
+    """Описание модели для регистрации газовых запровок."""
+    car = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='lpgs',
+        verbose_name='Автомобиль',
+        to_field='username',
+        default='faa',
+    )
     date = models.DateTimeField()
     price = models.FloatField()
     volume = models.FloatField()

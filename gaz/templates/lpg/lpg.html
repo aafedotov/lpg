@@ -1,47 +1,56 @@
 {% extends 'base.html' %}
-  {% block title %} 
-    LPG
-  {% endblock %}
+{% block title %}
+    LPG {{ car }}
+{% endblock %}
 
-  {% block set_body %}
+{% block set_body %}
     <body style='background: url("http://images.vfl.ru/ii/1633079235/924f95bc/36081496.jpg") no-repeat center center fixed; background-size: cover;'>
-  {% endblock %}
- 
-  {% block sect %}
-    <h1 class="mt-5"><font color="#FFFFFF"><b>GAS STATION CHECK-IN</b></font></h1>
+{% endblock %}
+
+{% block sect %}
+    <h1 class="mt-5"><font color="#FFFFFF"><b>GAS STATION CHECK-IN</b></font>
+    </h1>
+    <h4 class="mt-5"><font color="#FFFFFF"><b>Автомобиль: {{ car }}</b></font>
+    </h4>
     <br>
-      <div class="badge bg-success text-wrap" style="width: 7rem;">
+    <div class="badge bg-success text-wrap" style="width: 7rem;">
         ТО: {{ maintenance }} км
-      </div>
-      <div class="badge bg-primary text-wrap" style="width: 7rem;">
+    </div>
+    <div class="badge bg-primary text-wrap" style="width: 7rem;">
         ГБО: {{ lpg_maintenance }} км
-      </div>
+    </div>
     <form method='post'>{% csrf_token %}
-      <div class="form-group col-md-4 col-sm-4"> 
-        <label for="pricelpg"><font color="#FFFFFF">Цена LPG:</font></label>
-        <input required type="number" step="0.01" min="0.01" name='pricelpg' class="form-control" id="pricelpg">
-      </div>
-      <br>
-      <div class="form-group col-md-4 col-sm-4"> 
-        <label for="litres"><font color="#FFFFFF">Литров:</font></label>
-        <input required type="number" step="0.01" min="0.01" name='litres' class="form-control" id="litres">
-      </div>
-      <br>
-      <div class="form-group col-md-4 col-sm-4"> 
-        <label for="mileage"><font color="#FFFFFF">Пробег:</font></label>
-        <input required type="number" step="0.01" min="0.01" name='mileage' class="form-control" id="mileage">
-      </div>
-      <br>
-      <div class="form-group col-md-4 col-sm-4"> 
-        <label for="price95"><font color="#FFFFFF">Цена 95-го:</font></label>
-        <input required type="number" step="0.01" min="0.01" name='price95' value="{{ price }}" class="form-control" id="price95">
-      </div>
-      <br>
-      <button type="submit" class="btn btn-primary">Отправить</button>
+        <div class="form-group col-md-4 col-sm-4">
+            <label for="pricelpg"><font color="#FFFFFF">Цена
+                LPG:</font></label>
+            <input required type="number" step="0.01" min="0.01"
+                   name='pricelpg' class="form-control" id="pricelpg">
+        </div>
+        <br>
+        <div class="form-group col-md-4 col-sm-4">
+            <label for="litres"><font color="#FFFFFF">Литров:</font></label>
+            <input required type="number" step="0.01" min="0.01" name='litres'
+                   class="form-control" id="litres">
+        </div>
+        <br>
+        <div class="form-group col-md-4 col-sm-4">
+            <label for="mileage"><font color="#FFFFFF">Пробег:</font></label>
+            <input required type="number" step="0.01" min="0.01" name='mileage'
+                   class="form-control" id="mileage">
+        </div>
+        <br>
+        <div class="form-group col-md-4 col-sm-4">
+            <label for="price95"><font color="#FFFFFF">Цена
+                95-го:</font></label>
+            <input required type="number" step="0.01" min="0.01" name='price95'
+                   value="{{ price }}" class="form-control" id="price95">
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Отправить</button>
     </form>
     <br>
     <font color="#FFFFFF">{{ status }}</font>
     <font color="#FFFFFF">Текущая цена АИ-95 ЭКТО: {{ price }}</font>
-      <br>
+    <br>
     <font color="#FFFFFF">Дата обновления цены: {{ date }}</font>
-  {% endblock %}
+{% endblock %}

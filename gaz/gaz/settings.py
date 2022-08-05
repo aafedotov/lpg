@@ -6,14 +6,18 @@ load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = os.getenv('SECRET_KEY')
-
 DEBUG = False
+
+if DEBUG:
+    SECRET_KEY = 'oqiwenfpi12mfkm12mMAE2'
+else:
+    SECRET_KEY = os.getenv('SECRET_KEY')
 
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'meta.apps.MetaConfig',
+    'petrol.apps.PetrolConfig',
     'todo.apps.TodoConfig',
     'lpg.apps.LpgConfig',
     'sto.apps.StoConfig',

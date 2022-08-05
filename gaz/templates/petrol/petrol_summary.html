@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+  {% block title %}
+    Petrol
+  {% endblock %}
+
+  {% block set_body %}
+    <body style='background: url("https://i.yapx.ru/TMqjc.jpg") no-repeat center center fixed; background-size: cover;'>
+  {% endblock %}
+
+  {% block sect %}
+    <div class="d-block p-2 bg-dark text-white" style="height:auto; margin:auto;">
+    <h4>Автомобиль: {{ car }}.</h4>
+        <h4>До техобслуживания: {{ maintenance }} км.</h4>
+    <h4>Километров пройдено: {{ total_mileage }} км.</h4>
+    <h4>Всего литров: {{ total_volume }}.</h4>
+    <h4>Всего потрачено на бензин: {{ total_cost }} руб.</h4>
+    <h4>Средний расход: {{ total_consump }} литров на 100 км.</h4>
+    <h4>Руб/км (среднее): {{ total_cost_per_km }}.</h4>
+    </div>
+    <br>
+    <table class="table table-dark table-bordered table-striped" style="color: white; height:auto; margin:auto;">
+      <thead class="thead-white" color="black">
+        <tr>
+          <th scope="col">Дата</th>
+          <th scope="col">Цена</th>
+          <th scope="col">Литров</th>
+          <th scope="col">Стоимость</th>
+          <th scope="col">Расход</th>
+        </tr>
+      </thead>
+    <tbody>
+    {% for item in petrols %}
+      <tr>
+        <th scope="row">{{ item.date.date }}</th>
+        <td>{{ item.price }}</td>
+        <td>{{ item.volume }}</td>
+        <td>{{ item.cost }}</td>
+        <td>{{ item.consump }}</td>
+      </tr>
+    {% endfor %}
+{#    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>#}
+{#    <div id="linechart_material" class="d-block p-2 bg-dark text-white" style="height:auto; margin:auto;">#}
+{#      <script type="text/javascript">#}
+{#        google.charts.load('current', {'packages':['line']});#}
+{#        google.charts.setOnLoadCallback(drawChart);#}
+{##}
+{#        function drawChart() {#}
+{##}
+{#        var data = new google.visualization.DataTable();#}
+{#        data.addColumn('string', 'Date');#}
+{#        data.addColumn('number', 'LPG');#}
+{#        data.addColumn('number', 'АИ-95');#}
+{##}
+{#        data.addRows({{ chart_data|safe }});#}
+{##}
+{#        var options = {#}
+{#            height:450,#}
+{#            backgroundColor: {#}
+{#                fill: '#171717',#}
+{#                fillOpacity: 100#}
+{#            },#}
+{#            chart: {#}
+{#            title: 'Динамика цен на топливо',#}
+{#            subtitle: 'в рублях (RUB).',#}
+{#            },#}
+{#            chartArea: {#}
+{#                backgroundColor: {#}
+{#                    fill: '#171717',#}
+{#                    fillOpacity: 100#}
+{#            },#}
+{#            },#}
+{#        };#}
+{##}
+{#        var chart = new google.charts.Line(document.getElementById('linechart_material'));#}
+{##}
+{#        chart.draw(data, google.charts.Line.convertOptions(options));#}
+{#        }#}
+{#        </script>#}
+{#        </div>#}
+{#    <div id="linechart_material2" class="d-block p-2 bg-dark text-white">#}
+{#      <script type="text/javascript">#}
+{#        google.charts.load('current', {'packages':['line']});#}
+{#        google.charts.setOnLoadCallback(drawChart);#}
+{##}
+{#        function drawChart() {#}
+{##}
+{#        var data = new google.visualization.DataTable();#}
+{#        data.addColumn('string', 'Месяц');#}
+{#        data.addColumn('number', 'Пробег');#}
+{##}
+{#        data.addRows({{ chart_mileage|safe }});#}
+{##}
+{#        var options = {#}
+{#            height:300,#}
+{#            backgroundColor: {#}
+{#                fill: '#171717',#}
+{#                fillOpacity: 100#}
+{#            },#}
+{#            chart: {#}
+{#            title: 'Динамика пробега по месяцам',#}
+{#            subtitle: 'в километрах (км).',#}
+{#            },#}
+{#            chartArea: {#}
+{#                backgroundColor: {#}
+{#                    fill: '#171717',#}
+{#                    fillOpacity: 100#}
+{#            },#}
+{#            },#}
+{#        };#}
+{##}
+{#        var chart = new google.charts.Line(document.getElementById('linechart_material2'));#}
+{##}
+{#        chart.draw(data, google.charts.Line.convertOptions(options));#}
+{#        }#}
+{#        </script>#}
+{#        </div>#}
+{##}
+{#    <div id="linechart_material3" class="d-block p-2 bg-dark text-white">#}
+{#      <script type="text/javascript">#}
+{#        google.charts.load('current', {'packages':['line']});#}
+{#        google.charts.setOnLoadCallback(drawChart);#}
+{##}
+{#        function drawChart() {#}
+{##}
+{#        var data = new google.visualization.DataTable();#}
+{#        data.addColumn('string', 'Месяц');#}
+{#        data.addColumn('number', 'Затраты');#}
+{##}
+{#        data.addRows({{ chart_cost|safe }});#}
+{##}
+{#        var options = {#}
+{#            height:300,#}
+{#            backgroundColor: {#}
+{#                fill: '#171717',#}
+{#                fillOpacity: 100#}
+{#            },#}
+{#            chart: {#}
+{#            title: 'Динамика затрат на топливо',#}
+{#            subtitle: 'в рублях.',#}
+{#            },#}
+{#            chartArea: {#}
+{#                backgroundColor: {#}
+{#                    fill: '#171717',#}
+{#                    fillOpacity: 100#}
+{#            },#}
+{#            },#}
+{#        };#}
+{##}
+{#        var chart = new google.charts.Line(document.getElementById('linechart_material3'));#}
+{##}
+{#        chart.draw(data, google.charts.Line.convertOptions(options));#}
+{#        }#}
+{#        </script>#}
+{#        </div>#}
+    </tbody>
+  {% endblock %}
