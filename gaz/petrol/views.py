@@ -70,7 +70,7 @@ def petrol_summary(request):
     total_odometer = last_petrol.odometer
     total_volume = petrols.aggregate(Sum('volume')).get('volume__sum')
     total_cost = petrols.aggregate(Sum('cost')).get('cost__sum')
-    total_cost_per_km = round(total_cost / total_mileage, 2)
+    total_cost_per_km = round((total_cost - first_petrol.cost) / total_mileage, 2)
     total_consump = petrols.aggregate(Avg('consumption')).get('consumption__avg')
     context = {
         'total_volume': total_volume,
