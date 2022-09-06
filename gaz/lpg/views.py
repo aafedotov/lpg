@@ -104,7 +104,7 @@ def lpg_summary(request):
     chart_mileage.reverse()
     chart_cost = list(map(list, chart_cost.items()))
     chart_cost.reverse()
-    total_consump = round((total_consump / count), 2)
+    total_consump = round((total_consump / count - 1), 2)
     total_volume = round(total_volume, 2)
     total_cost = round(total_cost, 2)
     total_saving = round(total_saving, 2)
@@ -113,7 +113,7 @@ def lpg_summary(request):
     total_mileage = int(first_lpg.mileage_total)
     total_cost_per_km = 0
     if len(lpgs) > 1:
-        total_cost_per_km = round((total_cost - last_lpg.cost) / total_mileage,
+        total_cost_per_km = round((total_cost - first_lpg.cost) / total_mileage,
                               2)
     maintenance = first_lpg.maintenance
     lpg_maintenance = first_lpg.lpg_maintenance

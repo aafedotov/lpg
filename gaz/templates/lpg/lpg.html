@@ -19,6 +19,10 @@
     <div class="badge bg-primary text-wrap" style="width: 7rem;">
         ГБО: {{ lpg_maintenance }} км
     </div>
+    <font color="#FFFFFF">{{ status }}</font>
+    <font color="#FFFFFF">Текущая цена АИ-95 ЭКТО: {{ price }}</font>
+    <br>
+    <font color="#FFFFFF">Дата обновления цены: {{ date }}</font>
     <form method='post'>{% csrf_token %}
         <div class="form-group col-md-4 col-sm-4">
             <label for="pricelpg"><font color="#FFFFFF">Цена
@@ -49,8 +53,5 @@
         <button type="submit" class="btn btn-primary">Отправить</button>
     </form>
     <br>
-    <font color="#FFFFFF">{{ status }}</font>
-    <font color="#FFFFFF">Текущая цена АИ-95 ЭКТО: {{ price }}</font>
     <br>
-    <font color="#FFFFFF">Дата обновления цены: {{ date }}</font>
 {% endblock %}
