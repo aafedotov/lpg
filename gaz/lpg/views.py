@@ -25,7 +25,7 @@ def lpg_success(request):
 
 def lpg_view(request):
     """View-функция регистрации заправки газом."""
-    if request.user.username != 'faa':
+    if request.user.username not in ('faa', 'Patriot'):
         return redirect('/auth/login/')
     template = 'lpg/lpg.html'
     price = get_benz_price()
@@ -57,7 +57,7 @@ def lpg_view(request):
         f.mileage_total = round((last_lpg.mileage_total + float(mileage)), 2)
         f.consump = round((last_lpg.volume / float(mileage) * 100), 2)
         f.saving = round((float(
-            mileage) / 100 * 11.5 * last_lpg.benz_price - last_lpg.cost), 2)
+            mileage) / 100 * 15.5 * last_lpg.benz_price - last_lpg.cost), 2)
         f.maintenance = last_lpg.maintenance - int(mileage)
         f.lpg_maintenance = last_lpg.lpg_maintenance - int(mileage)
         f.car = request.user
@@ -111,6 +111,10 @@ def lpg_summary(request):
     total_days = datetime.date.today() - last_lpg.date.date()
     total_days = total_days.days
     total_mileage = int(first_lpg.mileage_total)
+    total_cost_per_km = 0
+    if len(lpgs) > 1:
+        total_cost_per_km = round((total_cost - last_lpg.cost) / total_mileage,
+                              2)
     maintenance = first_lpg.maintenance
     lpg_maintenance = first_lpg.lpg_maintenance
     car = request.user.username
@@ -129,5 +133,6 @@ def lpg_summary(request):
         'lpg_maintenance': lpg_maintenance,
         'maintenance': maintenance,
         'car': car,
+        'total_cost_per_km': total_cost_per_km,
     }
     return render(request, template, context)
