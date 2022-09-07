@@ -48,7 +48,7 @@ def lpg_view(request):
         now = datetime.datetime.now()
         pricelpg = request.POST['pricelpg']
         litres = request.POST['litres']
-        mileage_total = request.POST['mileage']
+        mileage_total = int(request.POST['mileage'])
         price95 = request.POST['price95']
         f = Lpg()
         f.date = now
@@ -58,7 +58,7 @@ def lpg_view(request):
         f.cost = round(float(pricelpg) * float(litres), 2)
         f.mileage_total = round(float(mileage_total), 2)
         mileage = 0
-        if len(lpgs) > 1:
+        if len(lpgs) > 0:
             mileage = mileage_total - last_lpg.mileage_total
         f.mileage = mileage
         f.consump = round((last_lpg.volume / float(mileage) * 100), 2)
@@ -110,7 +110,7 @@ def lpg_summary(request):
     chart_mileage.reverse()
     chart_cost = list(map(list, chart_cost.items()))
     chart_cost.reverse()
-    total_consump = round((total_consump / count - 1), 2)
+    total_consump = round((total_consump / (count - 1)), 2)
     total_volume = round(total_volume, 2)
     total_cost = round(total_cost, 2)
     total_saving = round(total_saving, 2)
