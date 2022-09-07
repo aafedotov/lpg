@@ -29,9 +29,11 @@ def lpg_view(request):
         return redirect('/auth/login/')
     template = 'lpg/lpg.html'
     price = get_benz_price()
-    last_lpg = Lpg.objects.all().order_by('-date').first()
+    lpgs = Lpg.objects.filter(car=request.user).all().order_by('-date')
+    last_lpg = lpgs.first()
     maintenance = last_lpg.maintenance
     lpg_maintenance = last_lpg.lpg_maintenance
+    next_gas = last_lpg.mileage_total + 350
     car = request.user.username
     context = {'status': '',
                'is_lpg': True,
@@ -40,6 +42,7 @@ def lpg_view(request):
                'maintenance': maintenance,
                'lpg_maintenance': lpg_maintenance,
                'car': car,
+               'next_gas': next_gas,
                }
     if request.method == 'POST':
         now = datetime.datetime.now()
@@ -53,8 +56,10 @@ def lpg_view(request):
         f.volume = round(float(litres), 2)
         f.benz_price = round(float(price95), 2)
         f.cost = round(float(pricelpg) * float(litres), 2)
-        f.mileage = round(float(mileage), 2)
-        f.mileage_total = round((last_lpg.mileage_total + float(mileage)), 2)
+        f.mileage_total = round(float(mileage), 2)
+        f.mileage = 0
+        if len(lpgs) > 1:
+            f.mileage = mileage - last_lpg.mileage_total
         f.consump = round((last_lpg.volume / float(mileage) * 100), 2)
         f.saving = round((float(
             mileage) / 100 * 15.5 * last_lpg.benz_price - last_lpg.cost), 2)
