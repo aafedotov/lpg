@@ -33,7 +33,7 @@ def lpg_view(request):
     last_lpg = lpgs.first()
     maintenance = last_lpg.maintenance
     lpg_maintenance = last_lpg.lpg_maintenance
-    next_gas = last_lpg.mileage_total + 350
+    next_gas = int(last_lpg.mileage_total) + 350
     car = request.user.username
     context = {'status': '',
                'is_lpg': True,
@@ -48,7 +48,7 @@ def lpg_view(request):
         now = datetime.datetime.now()
         pricelpg = request.POST['pricelpg']
         litres = request.POST['litres']
-        mileage = request.POST['mileage']
+        mileage_total = request.POST['mileage']
         price95 = request.POST['price95']
         f = Lpg()
         f.date = now
@@ -56,10 +56,11 @@ def lpg_view(request):
         f.volume = round(float(litres), 2)
         f.benz_price = round(float(price95), 2)
         f.cost = round(float(pricelpg) * float(litres), 2)
-        f.mileage_total = round(float(mileage), 2)
-        f.mileage = 0
+        f.mileage_total = round(float(mileage_total), 2)
+        mileage = 0
         if len(lpgs) > 1:
-            f.mileage = mileage - last_lpg.mileage_total
+            mileage = mileage_total - last_lpg.mileage_total
+        f.mileage = mileage
         f.consump = round((last_lpg.volume / float(mileage) * 100), 2)
         f.saving = round((float(
             mileage) / 100 * 15.5 * last_lpg.benz_price - last_lpg.cost), 2)
@@ -115,7 +116,9 @@ def lpg_summary(request):
     total_saving = round(total_saving, 2)
     total_days = datetime.date.today() - last_lpg.date.date()
     total_days = total_days.days
-    total_mileage = int(first_lpg.mileage_total)
+    total_mileage = 0
+    if len(lpgs) > 1:
+        total_mileage = first_lpg.mileage_total - last_lpg.mileage_total
     total_cost_per_km = 0
     if len(lpgs) > 1:
         total_cost_per_km = round((total_cost - first_lpg.cost) / total_mileage,
