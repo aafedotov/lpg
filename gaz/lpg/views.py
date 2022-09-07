@@ -29,7 +29,7 @@ def lpg_view(request):
         return redirect('/auth/login/')
     template = 'lpg/lpg.html'
     price = get_benz_price()
-    lpgs = Lpg.objects.filter(car=request.user).all().order_by('-date')
+    lpgs = Lpg.objects.filter(car=request.user)
     last_lpg = lpgs.first()
     maintenance = last_lpg.maintenance
     lpg_maintenance = last_lpg.lpg_maintenance
