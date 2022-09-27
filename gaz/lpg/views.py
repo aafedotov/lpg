@@ -33,7 +33,7 @@ def lpg_view(request):
     last_lpg = lpgs.first()
     maintenance = last_lpg.maintenance
     lpg_maintenance = last_lpg.lpg_maintenance
-    next_gas = int(last_lpg.mileage_total) + 350
+    next_gas = int(last_lpg.mileage_total) + 300
     car = request.user.username
     context = {'status': '',
                'is_lpg': True,
