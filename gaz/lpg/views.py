@@ -28,7 +28,10 @@ def lpg_view(request):
     if request.user.username not in ('faa', 'Patriot'):
         return redirect('/auth/login/')
     template = 'lpg/lpg.html'
-    price = get_benz_price()
+    try:
+        price = get_benz_price()
+    except Exception:
+        price = {'price': '0', 'date': 'Ошибка парсинга!'}
     lpgs = Lpg.objects.filter(car=request.user)
     last_lpg = lpgs.first()
     maintenance = last_lpg.maintenance
