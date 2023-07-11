@@ -13,7 +13,7 @@ def get_benz_price():
     soup = BeautifulSoup(response.text, 'lxml')
     prices = soup.find_all('span', class_='text-success font-weight-bold')
     dates = soup.find_all('small', class_='text-')
-    price = {'price': prices[1].text, 'date': dates[0].text}
+    price = {'price': prices[2].text, 'date': dates[0].text}
     return price
 
 
