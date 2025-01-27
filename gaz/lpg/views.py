@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render, redirect, reverse
 import datetime
 from .models import Lpg
@@ -8,13 +9,15 @@ from bs4 import BeautifulSoup
 
 def get_benz_price():
     """Парсим текущую цену бензина."""
-    url = 'https://fuelprice.ru/azs10608'
+    url = 'https://fuelprice.ru/azs10307'
     response = requests.get(url, verify=False)
     soup = BeautifulSoup(response.text, 'lxml')
-    prices = soup.find_all('span', class_='text-success font-weight-bold')
-    dates = soup.find_all('small', class_='text-')
-    price = {'price': prices[4].text, 'date': dates[4].text}
-    return price
+    ul = soup.find_all('ul', class_='list-none mt-3 mb-4')
+    li = ul[0].find_all('li')
+    price = li[4].find('span', class_='has-text-success has-weight-bold')
+    date = re.sub(r"^\s+|\s+$", "", li[4].find('small').text)
+    result = {'price': price.text, 'date': date}
+    return result
 
 
 def lpg_success(request):
