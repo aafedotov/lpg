@@ -1,7 +1,7 @@
 import csv
 import os
 from django.core.management.base import BaseCommand
-from gaz.lpg.models import Lpg
+from lpg.models import Lpg
 
 
 class Command(BaseCommand):
