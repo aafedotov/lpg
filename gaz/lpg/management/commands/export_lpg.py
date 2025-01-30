@@ -2,6 +2,8 @@ import csv
 import os
 from django.core.management.base import BaseCommand
 from lpg.models import Lpg
+from lpg.views import get_summary_data
+
 
 
 class Command(BaseCommand):
@@ -11,16 +13,25 @@ class Command(BaseCommand):
         parser.add_argument('--file', type=str, help='Путь к файлу для сохранения данных')
 
     def handle(self, *args, **options):
-        file_path = options['file'] or 'export.csv'
+        totals_file_path = options['file'] or 'export_total.csv'
+        context = get_summary_data('Patriot')
+        context_totals = {
+            'total_saving': context['total_saving'],
+            'total_volume': context['total_volume'],
+            'total_cost': context['total_cost'],
+            'total_consump': context['total_consump'],
+            'total_days': context['total_days'],
+            'total_mileage': context['total_mileage'],
+            'lpg_maintenance': context['lpg_maintenance'],
+            'maintenance': context['maintenance'],
+            'total_cost_per_km': context['total_cost_per_km']
+        }
 
-        with open(file_path, mode='w', newline='', encoding='utf-8') as file:
+        with open(totals_file_path, mode='w', newline='', encoding='utf-8') as file:
+
             writer = csv.writer(file)
 
-            headers = [field.name for field in Lpg._meta.fields]
-            writer.writerow(headers)
+            writer.writerow([key for key in context_totals])
+            writer.writerow([context_totals[key] for key in context_totals])
 
-            for obj in Lpg.objects.all():
-                row = [getattr(obj, field) for field in headers]
-                writer.writerow(row)
-
-        self.stdout.write(self.style.SUCCESS(f'Данные экспортированы в {file_path}'))
+        self.stdout.write(self.style.SUCCESS(f'Данные экспортированы в {totals_file_path}'))

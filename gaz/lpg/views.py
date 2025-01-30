@@ -78,12 +78,10 @@ def lpg_view(request):
     return render(request, template, context)
 
 
-def lpg_summary(request):
-    """View-функция для просмотра статистики."""
-    if request.user.username not in ('faa', 'Patriot'):
-        return redirect('/auth/login/')
-    template = 'lpg/lpg_summary.html'
-    lpgs = Lpg.objects.filter(car=request.user)
+def get_summary_data(car):
+    """Получаем данные для вывода саммари."""
+
+    lpgs = Lpg.objects.filter(car=car)
     last_lpg = lpgs.last()
     first_lpg = lpgs.first()
     total_saving = 0
@@ -127,8 +125,9 @@ def lpg_summary(request):
         total_mileage = first_lpg.mileage_total - last_lpg.mileage_total
     total_cost_per_km = 0
     if len(lpgs) > 1:
-        total_cost_per_km = round((total_cost - first_lpg.cost) / total_mileage,
-                              2)
+        total_cost_per_km = round(
+            (total_cost - first_lpg.cost) / total_mileage,
+            2)
     maintenance = first_lpg.maintenance
     lpg_maintenance = first_lpg.lpg_maintenance
     car = request.user.username
@@ -149,4 +148,15 @@ def lpg_summary(request):
         'car': car,
         'total_cost_per_km': total_cost_per_km,
     }
+
+    return context
+
+
+def lpg_summary(request):
+    """View-функция для просмотра статистики."""
+    if request.user.username not in ('faa', 'Patriot'):
+        return redirect('/auth/login/')
+    template = 'lpg/lpg_summary.html'
+    context = get_summary_data(request.user)
+
     return render(request, template, context)
