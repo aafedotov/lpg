@@ -49,16 +49,16 @@ class Command(BaseCommand):
             writer = csv.writer(file)
 
             writer.writerow(['month', 'mileage'])
-            for key, value in context_mileage.items():
-                writer.writerow([key, value])
+            for row in context_mileage:
+                writer.writerow([item for item in row])
 
         with open(cost_file_path, mode='w', newline='', encoding='utf-8') as file:
 
             writer = csv.writer(file)
 
             writer.writerow(['month', 'cost'])
-            for key, value in context_cost.items():
-                writer.writerow([key, value])
+            for row in context_cost:
+                writer.writerow([item for item in row])
 
         with open(price_file_path, mode='w', newline='', encoding='utf-8') as file:
 
