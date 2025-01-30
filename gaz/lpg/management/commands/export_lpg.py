@@ -13,7 +13,11 @@ class Command(BaseCommand):
         parser.add_argument('--file', type=str, help='Путь к файлу для сохранения данных')
 
     def handle(self, *args, **options):
-        totals_file_path = options['file'] or 'export_total.csv'
+        totals_file_path = 'export_total.csv'
+        mileage_file_path = 'export_mileage.csv'
+        cost_file_path = 'export_cost.csv'
+        price_file_path = 'export_price.csv'
+
         context = get_summary_data('Patriot')
         context_totals = {
             'total_saving': context['total_saving'],
@@ -27,6 +31,12 @@ class Command(BaseCommand):
             'total_cost_per_km': context['total_cost_per_km']
         }
 
+        context_mileage = context['chart_mileage']
+
+        context_cost = context['chart_cost']
+
+        context_price = context['chart_data']
+
         with open(totals_file_path, mode='w', newline='', encoding='utf-8') as file:
 
             writer = csv.writer(file)
@@ -34,4 +44,32 @@ class Command(BaseCommand):
             writer.writerow([key for key in context_totals])
             writer.writerow([context_totals[key] for key in context_totals])
 
+        with open(mileage_file_path, mode='w', newline='', encoding='utf-8') as file:
+
+            writer = csv.writer(file)
+
+            writer.writerow(['month', 'mileage'])
+            for key, value in context_mileage.items():
+                writer.writerow([key, value])
+
+        with open(cost_file_path, mode='w', newline='', encoding='utf-8') as file:
+
+            writer = csv.writer(file)
+
+            writer.writerow(['month', 'cost'])
+            for key, value in context_cost.items():
+                writer.writerow([key, value])
+
+        with open(price_file_path, mode='w', newline='', encoding='utf-8') as file:
+
+            writer = csv.writer(file)
+
+            writer.writerow(['date', 'lpg', 'petrol'])
+            for row in context_price:
+                writer.writerow([item for item in row])
+
+
+        self.stdout.write(self.style.SUCCESS(f'Данные экспортированы в {mileage_file_path}'))
         self.stdout.write(self.style.SUCCESS(f'Данные экспортированы в {totals_file_path}'))
+        self.stdout.write(self.style.SUCCESS(f'Данные экспортированы в {cost_file_path}'))
+        self.stdout.write(self.style.SUCCESS(f'Данные экспортированы в {price_file_path}'))
