@@ -130,7 +130,7 @@ def get_summary_data(car):
             2)
     maintenance = first_lpg.maintenance
     lpg_maintenance = first_lpg.lpg_maintenance
-    car = request.user.username
+    car = car
     context = {
         'total_saving': total_saving,
         'total_volume': total_volume,
