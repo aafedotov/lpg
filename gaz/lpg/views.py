@@ -55,6 +55,7 @@ def lpg_view(request):
         pricelpg = request.POST['pricelpg']
         litres = request.POST['litres']
         mileage_total = int(request.POST['mileage'])
+        mileage_gasoline = int(request.POST['mileage_gasoline'])
         price95 = request.POST['price95']
         f = Lpg()
         f.date = now
@@ -62,7 +63,12 @@ def lpg_view(request):
         f.volume = round(float(litres), 2)
         f.benz_price = round(float(price95), 2)
         f.cost = round(float(pricelpg) * float(litres), 2)
-        f.mileage_total = round(float(mileage_total), 2)
+        mileage_delta = 0
+        if mileage_gasoline != 0:
+            mileage_delta = mileage_gasoline - mileage_total
+            f.mileage_total = round(float(mileage_gasoline), 2)
+        else:
+            f.mileage_total = round(float(mileage_total), 2)
         mileage = 0
         if len(lpgs) > 0:
             mileage = mileage_total - last_lpg.mileage_total
@@ -70,8 +76,9 @@ def lpg_view(request):
         f.consump = round((last_lpg.volume / float(mileage) * 100), 2)
         f.saving = round((float(
             mileage) / 100 * 15.5 * last_lpg.benz_price - last_lpg.cost), 2)
-        f.maintenance = last_lpg.maintenance - int(mileage)
-        f.lpg_maintenance = last_lpg.lpg_maintenance - int(mileage)
+
+        f.maintenance = last_lpg.maintenance - int(mileage) - mileage_delta
+        f.lpg_maintenance = last_lpg.lpg_maintenance - int(mileage) - mileage_delta
         f.car = request.user
         f.save()
         return redirect(reverse('lpg:success'))
