@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 
 def get_benz_price():
     """Парсим текущую цену бензина."""
-    url = 'https://fuelprice.ru/azs10307'
+    url = 'https://fuelprice.ru/azs39601'
     response = requests.get(url, verify=False)
     soup = BeautifulSoup(response.text, 'lxml')
     ul = soup.find_all('ul', class_='list-none mt-3 mb-4')
