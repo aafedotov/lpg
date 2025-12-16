@@ -12,7 +12,7 @@ def get_benz_price():
     url = 'https://fuelprice.ru/azs39601'
     response = requests.get(url, verify=False)
     soup = BeautifulSoup(response.text, 'lxml')
-    prices = soup.find_all('span', class_='has-text-success has-weight-bold')
+    prices = soup.find_all('span', class_='text-green-600')
     dates = soup.find_all('small')
     date = re.sub(r"^\s+|\s+$", "", dates[0].text)
     result = {'price': prices[1].text, 'date': date}
