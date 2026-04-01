@@ -8,15 +8,23 @@ from bs4 import BeautifulSoup
 
 
 def get_benz_price():
-    """Парсим текущую цену бензина."""
-    url = 'https://fuelprice.ru/azs39601'
-    response = requests.get(url, verify=False)
+    """Парсим текущую цену бензина АИ-95 для АЗС General Fueller №14."""
+    url = 'https://fuelprice.ru/balashiha'
+    response = requests.get(url, verify=False, timeout=15)
     soup = BeautifulSoup(response.text, 'lxml')
-    prices = soup.find_all('span', class_='text-green-600')
-    dates = soup.find_all('small')
-    date = re.sub(r"^\s+|\s+$", "", dates[0].text)
-    result = {'price': prices[1].text, 'date': date}
-    return result
+    azs_heading = soup.find(attrs={'data-id': '35746'})
+    card = azs_heading.find_parent('div', class_=re.compile('rounded'))
+    for li in card.find_all('li', class_='mb-2'):
+        name_span = li.find('span', class_=lambda c: c and 'product_name' in c)
+        if name_span and 'Аи-95' in name_span.get_text():
+            spans = li.find_all('span')
+            price = next(
+                s.get_text(strip=True) for s in spans
+                if re.match(r'^\d+\.?\d*$', s.get_text(strip=True))
+            )
+            date = li.find('small').get_text(strip=True)
+            return {'price': price, 'date': date}
+    raise ValueError('Аи-95 price not found for AZS 35746')
 
 
 def lpg_success(request):
